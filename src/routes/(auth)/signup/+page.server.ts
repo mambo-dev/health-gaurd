@@ -3,6 +3,9 @@ import type { PageServerLoad } from './$types';
 import { db } from '$lib/db/db';
 import { users } from '$lib/db/schema';
 import { eq } from 'drizzle-orm';
+import bcrypt from 'bcryptjs';
+import { createJwt } from '$lib/server/create_jwt';
+import { setAuthToken } from '$lib/server/set_auth_token';
 
 export const load: PageServerLoad = async () => {
 	return {};
@@ -26,15 +29,16 @@ export const actions: Actions = {
 		if (findUser) {
 			return fail(422, { error: 'This account already exists try loggin in' });
 		}
+		const hash = await bcrypt.hash(password, 14);
 
-		await db
+		const newUser = await db
 			.insert(users)
-			.values({ email, password })
+			.values({ email, password: hash })
 			.returning({ id: users.id, email: users.email });
 
-		const access_token = '';
+		const access_token = createJwt(newUser[0]);
 
-		cookies.set('access_token', `Bearer ${access_token}`, { path: '/' });
+		setAuthToken({ cookies, access_token });
 
 		throw redirect(303, '/onboarding/setup-profile');
 	}

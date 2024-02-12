@@ -4,8 +4,10 @@ import { boolean, integer, pgEnum, pgTable, serial, timestamp, varchar } from 'd
 export const users = pgTable('users', {
 	id: serial('user_id').primaryKey(),
 	email: varchar('user_email').notNull().unique(),
-	password: varchar('user_password')
+	password: varchar('user_password').notNull()
 });
+
+export type User = typeof users.$inferSelect;
 
 export const usersRelations = relations(users, ({ one, many }) => ({
 	profile: one(profile, {
