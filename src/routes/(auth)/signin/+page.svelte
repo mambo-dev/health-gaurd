@@ -1,13 +1,27 @@
 <script lang="ts" >
     import { enhance } from '$app/forms';
-    let loading = false
+	import { goto } from '$app/navigation';
 
+
+
+    let loading = false
+    let error = false
+    let message = ""
+
+   
     function submitForm(){
         loading = true
 
-        return async ()=>{
+        return async (options:any)=>{
+            if(options.result.type === "failure"){
+                error = true 
+                message = options.result.data.error
+            }
+
+            if(options.result.type === "redirect"){
+                await goto(options.result.location)
+            }
             loading = false
-           
         }
     }
 
@@ -34,6 +48,14 @@
             { loading ? "loading..." : "Sign in"}
             </button>
         </div>
+        <a  href="/signup" class=" mt-2 mr-auto text-blue-500 hover:underline text-sm font-medium" >Don't have an account? sign up.</a>
+
         <a  href="/forgot-password" class=" mt-2 ml-auto text-blue-500 hover:underline text-sm font-medium" >forgot password ?</a>
     </form>
+
+    {#if error}
+    <div  class="w-full mt-2 rounded-full py-1 flex items-center justify-center px-4 bg-red-500 text-sm text-slate-50 font-semibold">
+        <p>{message}</p>
+    </div>
+{/if}
 </div>
