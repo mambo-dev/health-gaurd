@@ -27,13 +27,15 @@ export const actions: Actions = {
 			return fail(422, { error: 'This account already exists try loggin in' });
 		}
 
-		const newUser = await db
+		await db
 			.insert(users)
 			.values({ email, password })
 			.returning({ id: users.id, email: users.email });
 
-		cookies.set('access_token', '', { path: '/' });
+		const access_token = '';
 
-		throw redirect('/onboarding/profile');
+		cookies.set('access_token', `Bearer ${access_token}`, { path: '/' });
+
+		throw redirect(303, '/onboarding/setup-profile');
 	}
 };

@@ -1,4 +1,4 @@
-import { fail, type Actions } from '@sveltejs/kit';
+import { fail, type Actions, redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/db/db';
 import { users } from '$lib/db/schema';
@@ -25,11 +25,9 @@ export const actions: Actions = {
 		if (password !== findUser?.password) {
 			return fail(422, { error: 'invalid password or email' });
 		}
+		const access_token = '';
+		cookies.set('access_token', `Bearer ${access_token}`, { path: '/' });
 
-		cookies.set('access_token', '', { path: '/' });
-
-		return {
-			authenticated: true
-		};
+		throw redirect(303, '/dashboard');
 	}
 };
