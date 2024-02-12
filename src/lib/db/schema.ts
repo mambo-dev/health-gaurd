@@ -31,6 +31,8 @@ export const activityEnum = pgEnum('profile_activity_level', [
 	'very_active'
 ]);
 
+export const sexEnum = pgEnum('sex', ['male', 'female']);
+
 export const profile = pgTable('profile', {
 	id: serial('profile_id').primaryKey(),
 	firstName: varchar('profile_first_name').notNull(),
@@ -38,6 +40,7 @@ export const profile = pgTable('profile', {
 	age: integer('profile_age').notNull().default(0),
 	height: integer('profile_height').notNull().default(0),
 	weight: integer('profile_weight').notNull().default(0),
+	sex: sexEnum('sex'),
 	activityLevel: activityEnum('profile_activity_level'),
 	bmi: varchar('profile_bmi'),
 	userId: integer('profile_user_id')
