@@ -1,5 +1,5 @@
 import { relations } from 'drizzle-orm';
-import { boolean, integer, pgEnum, pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgEnum, pgTable, serial, time, varchar } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
 	id: serial('user_id').primaryKey(),
@@ -99,8 +99,8 @@ export const medicalHistoryRelations = relations(medicalHistory, ({ one }) => ({
 
 export const dailySchedule = pgTable('schedule', {
 	id: serial('schedule_id').primaryKey(),
-	wakeUp: timestamp('schedule_wake_up').notNull().defaultNow(),
-	bedTime: timestamp('schedule_bed_time').notNull().defaultNow(),
+	wakeUp: time('schedule_wake_up').notNull().defaultNow(),
+	bedTime: time('schedule_bed_time').notNull().defaultNow(),
 	userId: integer('schedule_user_id')
 		.references(() => users.id)
 		.notNull()
