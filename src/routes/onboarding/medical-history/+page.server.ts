@@ -97,10 +97,10 @@ export const actions: Actions = {
 					)
 				);
 
-			throw redirect(303, '/onboarding/medical-history');
+			throw redirect(303, '/onboarding/meal-preference');
 		}
 		await db.insert(medicalHistory).values(selectedHistory);
 
-		throw redirect(303, '/onboarding/medical-history');
+		throw redirect(303, '/onboarding/meal-preference');
 	}
 };

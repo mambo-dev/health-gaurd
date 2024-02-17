@@ -77,10 +77,10 @@
             </button>
 
             <button on:click={async ()=>{
-                await goto("/onboarding/meal-preferences")
+                await goto("/onboarding/meal-preference")
             }} 
             type="button"
-            class="hover:underline hover:bg-slate-50 hover:text-slate-900 text-white font-medium py-2 px-4 rounded-full"
+            class=" hover:bg-slate-50 hover:text-slate-900 text-white font-medium py-2 px-4 rounded-full"
             >
             Skip
             </button>
