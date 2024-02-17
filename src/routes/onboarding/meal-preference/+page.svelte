@@ -9,9 +9,9 @@
     let error = false
     let message = ""
     let portionOptions = {
-        small:"Small",
-        moderate:"Moderate",
-        large:"Large",
+        small:"small",
+        moderate:"moderate",
+        large:"large",
     }
     let portionValue:string = '';
 
@@ -50,7 +50,7 @@
         <div class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
             Portion sizes
             <DropDown label={portionValue.length > 0 ? portionValue : "Choose size" } bind:value={portionValue} 
-            buttonClassName="text-sm inline-flex items-center justify-between px-4 w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"
+            buttonClassName="first-letter:uppercase text-sm inline-flex items-center justify-between px-4 w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"
               options={Object.values(portionOptions)} />
 
             <input type="hidden" value={portionValue} name="portionSizes" />

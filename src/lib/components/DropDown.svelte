@@ -29,7 +29,7 @@
     <ul class="absolute mt-2 w-48 rounded-md shadow-lg bg-slate-900 ring-1 ring-black ring-opacity-5">
         {#each options as option (option)}
           <li class="w-full" >
-            <button type="button" class=" w-full  px-4 py-2 text-sm text-slate-50 hover:bg-gray-100 hover:text-gray-900" on:click="{()=>chooseOption(option)}">
+            <button type="button" class=" first-letter:uppercase w-full  px-4 py-2 text-sm text-slate-50 hover:bg-gray-100 hover:text-gray-900" on:click="{()=>chooseOption(option)}">
               {option}
             </button>
           </li>
