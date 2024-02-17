@@ -1,12 +1,11 @@
 import { db } from '$lib/db/db';
 import { profile } from '$lib/db/schema';
-import { fail, type Actions, redirect } from '@sveltejs/kit';
+import { checkUserAuth } from '$lib/server/check-auth';
+import { type Actions, redirect } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
-		if (!locals.user) {
-			return fail(403, { error: 'oops sorry you need to be logged in for this part' });
-		}
+		checkUserAuth(locals);
 
 		const formData = await request.formData();
 
@@ -21,7 +20,7 @@ export const actions: Actions = {
 
 		const calculate_bmi = weight / (convert_cm_to_m * convert_cm_to_m);
 
-		let activity_level = {
+		const activity_level = {
 			sedentary: 'sedentary',
 			lightly_active: 'Lightly active',
 			moderately_active: 'Moderately active',
