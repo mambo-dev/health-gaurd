@@ -51,7 +51,7 @@ export const profile = pgTable('profile', {
 
 export const goals = pgTable('user_goal', {
 	id: serial('goal_id').primaryKey(),
-	title: varchar('goal_title'),
+	title: varchar('goal_title').notNull(),
 	userId: integer('goal_user_id')
 		.references(() => users.id)
 		.notNull()

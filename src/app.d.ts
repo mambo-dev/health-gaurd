@@ -12,6 +12,15 @@ declare global {
 		// interface PageData {}
 		// interface PageState {}
 		// interface Platform {}
+
+		interface FrontEndTypes {
+			options: {
+				[index: string]: {
+					option: string;
+					selected: boolean;
+				};
+			};
+		}
 	}
 }
 

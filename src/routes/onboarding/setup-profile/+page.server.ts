@@ -50,6 +50,6 @@ export const actions: Actions = {
 			weight: weight
 		});
 
-		throw redirect(303, '/onboarding/select-prefs');
+		throw redirect(303, '/onboarding/select-goals');
 	}
 };
