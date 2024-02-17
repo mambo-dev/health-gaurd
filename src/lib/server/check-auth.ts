@@ -1,9 +1,17 @@
-import { fail } from '@sveltejs/kit';
-
 export function checkUserAuth(locals: App.Locals) {
 	if (!locals.user) {
-		return fail(403, { error: 'oops sorry you need to be logged in for this part' });
+		return {
+			error: 'oops sorry you need to be logged in for this part'
+		};
 	}
 
-	return true;
+	if (!locals.user.id) {
+		throw new Error('failed to attach id on login');
+	}
+
+	const userId: number = locals.user.id;
+
+	return {
+		userId
+	};
 }

@@ -3,7 +3,7 @@
     import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import MultipleOptions from '$lib/components/MultipleOptions.svelte';
-	import type { PageData } from './$types';
+	import type { PageData, PageServerData } from './$types';
 
 
 
@@ -15,12 +15,17 @@
 
     
     export let data:PageData
+
     let userGoals:App.FrontEndTypes["options"] = {}
+
+    let alreadySelected = data.goals ? data.goals?.map((goal)=>{
+        return goal.title
+    }) : []
 
     data.goal_options.forEach(element => {
         userGoals[element] = {
             option:element,
-            selected:false
+            selected:alreadySelected?.includes(element) ?? false
         }
 
     });

@@ -1,11 +1,15 @@
 import { db } from '$lib/db/db';
 import { profile } from '$lib/db/schema';
 import { checkUserAuth } from '$lib/server/check-auth';
-import { type Actions, redirect } from '@sveltejs/kit';
+import { type Actions, redirect, fail } from '@sveltejs/kit';
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
-		checkUserAuth(locals);
+		const { error, userId } = checkUserAuth(locals);
+
+		if (!userId || error) {
+			return fail(403, { error: error });
+		}
 
 		const formData = await request.formData();
 

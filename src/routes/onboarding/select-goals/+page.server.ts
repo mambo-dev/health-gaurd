@@ -3,15 +3,41 @@ import { goals } from '$lib/db/schema';
 import { checkUserAuth } from '$lib/server/check-auth';
 import { redirect, type Actions, fail } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ locals }) => {
+	const { error, userId } = checkUserAuth(locals);
+
+	if (!userId || error) {
+		return fail(403, { error });
+	}
+
+	const findGoals = await db.query.goals.findMany({
+		where: eq(goals.userId, userId)
+	});
+
+	if (!findGoals) {
+		return {
+			goals: []
+		};
+	}
+
+	return {
+		goals: findGoals
+	};
+};
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
-		checkUserAuth(locals);
+		const { error, userId } = checkUserAuth(locals);
+
+		if (!userId || error) {
+			return fail(403, { error });
+		}
+
 		if (!locals.user.id) {
 			throw new Error('failed to attach id on login');
 		}
-
-		const userId: number = locals.user.id;
 
 		const goal_options: string[] = [
 			'Weight management',
