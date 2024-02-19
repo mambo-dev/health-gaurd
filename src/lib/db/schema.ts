@@ -90,7 +90,6 @@ export const medicalHistory = pgTable('history', {
 	userId: integer('history_user_id')
 		.references(() => users.id)
 		.notNull()
-		.unique()
 });
 
 export const medicalHistoryRelations = relations(medicalHistory, ({ one }) => ({

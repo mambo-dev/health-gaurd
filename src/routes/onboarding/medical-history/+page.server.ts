@@ -24,7 +24,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 		where: eq(medicalHistory.userId, userId)
 	});
 
-	if (!findMedicalHistory || findMedicalHistory.length > 0) {
+	if (!findMedicalHistory || findMedicalHistory.length <= 0) {
 		return {
 			availableHistory: [],
 			historyOptions
@@ -66,13 +66,16 @@ export const actions: Actions = {
 			.filter((history) => history.name !== 'null');
 
 		if (selectedHistory.length <= 0) {
-			return fail(422, { error: 'you can skip this step if you dont have any medical history' });
+			return fail(422, {
+				error: 'you can skip this step if you dont have or prefer not to share your medical history'
+			});
 		}
 
 		const findMedicalHistory = await db.query.medicalHistory.findMany({
 			where: eq(medicalHistory.userId, userId)
 		});
-		if (findMedicalHistory) {
+
+		if (findMedicalHistory.length > 0) {
 			const savedHistory = findMedicalHistory.map((history) => {
 				return history.name;
 			});
@@ -96,10 +99,9 @@ export const actions: Actions = {
 						(history) => !Object.keys(savedHistoryObject).includes(history.name)
 					)
 				);
-
-			throw redirect(303, '/onboarding/meal-preference');
+		} else {
+			await db.insert(medicalHistory).values(selectedHistory);
 		}
-		await db.insert(medicalHistory).values(selectedHistory);
 
 		throw redirect(303, '/onboarding/meal-preference');
 	}

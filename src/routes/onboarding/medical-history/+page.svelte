@@ -11,6 +11,7 @@
     let error = false
     let show = false
     let message = ""
+    let update = false
 
 
     
@@ -21,6 +22,10 @@
     let alreadySelected = data.availableHistory ? data.availableHistory?.map((history)=>{
         return history.name
     }) : []
+
+    if(alreadySelected.length > 0 ){
+        update = true
+    }
 
     data?.historyOptions?.forEach(element => {
         userHistory[element] = {
@@ -71,10 +76,18 @@
         {/each}
     
         <div class="flex items-center justify-between gap-x-3 w-full mt-4 " >
-        
+
+            {#if update}
             <button  disabled={loading} class=" flex-1 disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
-            { loading ? "loading..." : "Save condition"}
-            </button>
+                { loading ? "loading..." : "Update condition"}
+                </button>
+            {:else}
+            <button  disabled={loading} class=" flex-1 disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
+                { loading ? "loading..." : "Save condition"}
+                </button>
+            {/if}
+        
+
 
             <button on:click={async ()=>{
                 await goto("/onboarding/meal-preference")
