@@ -2,6 +2,30 @@ import { db } from '$lib/db/db';
 import { dailySchedule, notifications } from '$lib/db/schema';
 import { checkUserAuth } from '$lib/server/check-auth';
 import { fail, type Actions, redirect } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async ({ locals }) => {
+	const { error, userId } = checkUserAuth(locals);
+
+	if (!userId || error) {
+		return fail(403, { error });
+	}
+
+	const hasSchecule = await db.query.dailySchedule.findFirst({
+		where: eq(dailySchedule.userId, userId)
+	});
+
+	if (hasSchecule) {
+		return {
+			schedule: hasSchecule
+		};
+	}
+
+	return {
+		schedule: undefined
+	};
+};
 
 export const actions: Actions = {
 	default: async ({ request, locals }) => {
@@ -23,11 +47,22 @@ export const actions: Actions = {
 			});
 		}
 
-		await db.insert(dailySchedule).values({
-			userId: userId,
-			bedTime,
-			wakeUp
+		const hasSchecule = await db.query.dailySchedule.findFirst({
+			where: eq(dailySchedule.userId, userId)
 		});
+
+		if (hasSchecule) {
+			await db.update(dailySchedule).set({
+				bedTime,
+				wakeUp
+			});
+		} else {
+			await db.insert(dailySchedule).values({
+				userId: userId,
+				bedTime,
+				wakeUp
+			});
+		}
 
 		if (notification === 'true') {
 			await db.insert(notifications).values({ userId, receiveReminders: true });

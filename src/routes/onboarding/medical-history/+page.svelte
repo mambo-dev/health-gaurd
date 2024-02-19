@@ -3,7 +3,7 @@
     import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import MultipleOptions from '$lib/components/MultipleOptions.svelte';
-	import type { PageData, PageServerData } from './$types';
+	import type { PageData } from './$types';
 
 
 

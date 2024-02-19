@@ -2,14 +2,29 @@
     import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { Check } from 'lucide-svelte';
+	import type {  PageData } from './$types';
 
 
     let loading = false
     let error = false
     let message = ""
-    let wakeUpTime = new Date()
-    let bedTime = new Date()
+    let wakeUpTime = String(new Date().getTime())
+    let bedTime =  String(new Date().getTime())
     let notification = false
+    let update = false
+
+    export let data:PageData
+
+    if(data.schedule){
+        wakeUpTime = data.schedule.wakeUp
+        bedTime = data.schedule.bedTime
+        update = true
+    }
+
+
+
+   
+
 
    
     function submitForm(){
@@ -69,10 +84,16 @@
     </div>
      
         <div class="flex gap-x-3 w-full mt-4 " >
-    
+            {#if update}
             <button  disabled={loading} class="disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
-            { loading ? "loading..." : "Save preference"}
-            </button>
+                { loading ? "loading..." : "update preference"}
+                </button>
+            {:else}
+            <button  disabled={loading} class="disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
+                { loading ? "loading..." : "Save preference"}
+                </button>
+            {/if}
+    
         </div>
 
     </form>
