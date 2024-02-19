@@ -2,8 +2,9 @@
     import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import DropDown from '$lib/components/DropDown.svelte';
+	import type { PageData } from './$types';
 
-
+    export let data:PageData
 
     let loading = false
     let error = false
@@ -14,6 +15,16 @@
         large:"large",
     }
     let portionValue:string = '';
+    let noOfMeals:number | null
+    let update = false
+
+    if(data.preference){
+        update = true
+        portionValue = data.preference.portionSizes ?? ""
+        noOfMeals = data.preference.numberOfMeals
+    
+    }
+
 
    
     function submitForm(){
@@ -44,7 +55,7 @@
 
         <label class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
             Number of meals
-         <input type="number" name="numberOfMeals"  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
+         <input type="number" name="numberOfMeals" value={noOfMeals}  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
         </label>
         
         <div class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
@@ -58,10 +69,17 @@
     </div>
      
         <div class="flex gap-x-3 w-full mt-4 " >
-    
+            {#if update}
             <button  disabled={loading} class="disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
-            { loading ? "loading..." : "Save preference"}
-            </button>
+                { loading ? "loading..." : "update preference"}
+                </button>
+            {:else}
+            <button  disabled={loading} class="disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
+                { loading ? "loading..." : "Save preference"}
+                </button>
+            {/if}
+    
+         
         </div>
 
     </form>

@@ -55,6 +55,7 @@ export const goals = pgTable('user_goal', {
 	userId: integer('goal_user_id')
 		.references(() => users.id)
 		.notNull()
+		.unique()
 });
 
 export const goalRelations = relations(goals, ({ one }) => ({
@@ -73,6 +74,7 @@ export const mealPreferences = pgTable('preference', {
 	userId: integer('preference_user_id')
 		.references(() => users.id)
 		.notNull()
+		.unique()
 });
 
 export const mealPreferencesRelations = relations(mealPreferences, ({ one }) => ({
@@ -88,6 +90,7 @@ export const medicalHistory = pgTable('history', {
 	userId: integer('history_user_id')
 		.references(() => users.id)
 		.notNull()
+		.unique()
 });
 
 export const medicalHistoryRelations = relations(medicalHistory, ({ one }) => ({
@@ -113,6 +116,7 @@ export const notifications = pgTable('notification', {
 	userId: integer('history_user_id')
 		.references(() => users.id)
 		.notNull()
+		.unique()
 });
 
 export const notificationsRelations = relations(notifications, ({ one }) => ({

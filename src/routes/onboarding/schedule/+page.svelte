@@ -86,11 +86,11 @@
         <div class="flex gap-x-3 w-full mt-4 " >
             {#if update}
             <button  disabled={loading} class="disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
-                { loading ? "loading..." : "update preference"}
+                { loading ? "loading..." : "update schedule"}
                 </button>
             {:else}
             <button  disabled={loading} class="disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
-                { loading ? "loading..." : "Save preference"}
+                { loading ? "loading..." : "Save schedule"}
                 </button>
             {/if}
     
