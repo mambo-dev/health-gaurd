@@ -71,7 +71,7 @@ export const actions: Actions = {
 			where: eq(goals.userId, userId)
 		});
 
-		if (findGoals) {
+		if (findGoals.length > 0) {
 			const savedGoals = findGoals.map((goals) => {
 				return goals.title;
 			});
@@ -93,10 +93,9 @@ export const actions: Actions = {
 				.values(
 					selectedGoals.filter((goal) => !Object.keys(savedGoalsObject).includes(goal.title))
 				);
-
-			throw redirect(303, '/onboarding/medical-history');
+		} else {
+			await db.insert(goals).values(selectedGoals);
 		}
-		await db.insert(goals).values(selectedGoals);
 
 		throw redirect(303, '/onboarding/medical-history');
 	}

@@ -11,6 +11,7 @@
     let error = false
     let show = false
     let message = ""
+    let update = false
 
 
     
@@ -29,6 +30,8 @@
         }
 
     });
+
+    
 
     
 
