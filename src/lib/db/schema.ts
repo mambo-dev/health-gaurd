@@ -55,7 +55,6 @@ export const goals = pgTable('user_goal', {
 	userId: integer('goal_user_id')
 		.references(() => users.id)
 		.notNull()
-		.unique()
 });
 
 export const goalRelations = relations(goals, ({ one }) => ({
