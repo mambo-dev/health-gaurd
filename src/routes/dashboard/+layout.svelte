@@ -1,6 +1,7 @@
 <script  lang="ts" >
 	  import { PanelsTopLeft } from "lucide-svelte";
     import "../../app.css"
+	import SideBarNav from "$lib/components/SideBarNav.svelte";
 
     let sideOpen:boolean = true
 
@@ -17,6 +18,7 @@
         <PanelsTopLeft class="w-6 h-6 text-slate-200" />
       </button>
     </div>
+    <SideBarNav />
   </aside>
     <div class="w-full" >
       <slot />
