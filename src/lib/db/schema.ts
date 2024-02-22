@@ -42,12 +42,14 @@ export const profile = pgTable('profile', {
 	weight: integer('profile_weight').notNull().default(0),
 	sex: sexEnum('sex'),
 	activityLevel: activityEnum('profile_activity_level'),
-	bmi: varchar('profile_bmi'),
+	bmi: integer('profile_bmi'),
 	userId: integer('profile_user_id')
 		.references(() => users.id)
 		.notNull()
 		.unique()
 });
+
+export type Profile = typeof profile.$inferSelect;
 
 export const goals = pgTable('user_goal', {
 	id: serial('goal_id').primaryKey(),

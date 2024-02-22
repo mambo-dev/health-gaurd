@@ -2,7 +2,9 @@
     import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import DropDown from '$lib/components/DropDown.svelte';
-
+	import type { Profile } from '$lib/db/schema';
+	import type { PageData } from './$types';
+    export let data:PageData
 
 
     let loading = false
@@ -14,8 +16,29 @@
         moderately_active:"Moderately active",
         very_active:"Very active",
     }
-    let activityValue:string = '';
+    let activityValue:string = "";
     let genderValue:string = ""
+    let update = false
+    let firstName = ""
+    let secondName = ""
+    let age = 0
+    let height= 0
+    let weight= 0
+
+    
+    if(data && data.profile){
+        update = true
+        
+        activityValue = String(data.profile.activityLevel)
+        genderValue = String(data.profile.sex)
+        firstName = data.profile.firstName
+        secondName = data.profile.secondName
+        age = data.profile.age
+        height = data.profile.height
+        weight = data.profile.weight
+    }
+
+
    
     function submitForm(){
         loading = true
@@ -44,24 +67,24 @@
     <div class="grid grid-cols-3 gap-x-3 gap-y-4 w-full" >
         <label class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
             First name
-        <input type="text" name="firstName"  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
+        <input type="text" name="firstName" value={firstName}  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
         </label>
         <label class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
             Second name
-        <input type="text" name="secondName"  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
+        <input type="text" name="secondName" value={secondName}  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
         </label>
         <label class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
             Age
-        <input type="number" name="age"  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
+        <input type="number" name="age" value={age}  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
         </label>
         
         <label class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
-            Height
-        <input type="number" name="height"  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
+            Height (cm)
+        <input type="number" name="height" value={height}  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
         </label>
         <label class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
-            Weight
-        <input type="number" name="weight"  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
+            Weight (kg)
+        <input type="number" name="weight" value={weight}  required class="w-full font-normal border-slate-600 border outline-none rounded-full px-2 bg-inherit py-2"  />
         </label>
              
         <div class="text-slate-50 font-medium flex flex-col gap-y-1 w-full" >
@@ -79,15 +102,21 @@
               options={Object.entries(activity_level).map((value)=>{
                 return value[1]
             })} />
-                       <input type="hidden" value={activityValue} name="activityLevel" />
+            <input type="hidden" value={activityValue} name="activityLevel" />
         </div>
     </div>
      
         <div class="flex gap-x-3 w-3/4 mt-4 " >
-    
+            {#if update}
             <button  disabled={loading} class="disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
-            { loading ? "loading..." : "Save profile"}
-            </button>
+                { loading ? "loading..." : "Update profile"}
+                </button>
+            {:else}
+            <button  disabled={loading} class="disabled:bg-opacity-50 w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-full"    >
+                { loading ? "loading..." : "Save profile"}
+                </button>
+            {/if}
+          
         </div>
 
     </form>

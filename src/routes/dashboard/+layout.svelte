@@ -20,7 +20,11 @@
     </div>
     <SideBarNav />
   </aside>
+ 
     <div class="w-full" >
+      <nav class=" invisible w-full h-14 py-3 px-4 flex items-center " >
+  
+      </nav>
       <slot />
     </div>
   </div>
