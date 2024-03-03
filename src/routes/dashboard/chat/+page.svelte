@@ -1,17 +1,84 @@
 <script lang="ts">
-	import { PlusCircle } from "lucide-svelte";
+	import {  PlusCircle, SendHorizonal } from "lucide-svelte";
+	import type { PageData } from "./$types";
+	import { enhance } from "$app/forms";
+	import { goto} from "$app/navigation";
+	import Chat from "$lib/components/chat/Chat.svelte";
+    import {page} from "$app/stores"
+    
+
+    export let data:PageData
+
+    let chats  = data.chats ? data.chats?.map(chat=>{
+        return {
+            display_id:chat.displayId,
+            active:false
+        }
+    }) : []
+    let loading = false
+    let error = false
+    let message = ""
+
+  
+    function submitForm(){
+        loading = true
+
+        return async (options:any)=>{
+            if(options.result.type === "failure"){
+                error = true 
+                message = options.result.data.error
+            }
+
+            let currentChats = data.chats ? data.chats?.map(chat=>{
+        return {
+            display_id:chat.displayId,
+            active:false
+        }
+    }) : []
+
+            chats = [...currentChats, {
+                display_id:options.result.data.display_id,
+                active:true
+            }]
 
 
+            await goto(`/dashboard/chat?chat_id=${options.result.data.display_id}`)
+
+       
+            
+
+
+            loading = false
+        }
+    }
 </script>
 
 
-<div class="w-full text-slate-50 flex items-start justify-start px-4 min-h-screen" >
-    <div class="bg-slate-950 shadow-xl rounded-md  h-full w-1/4 py-3 px-2 flex flex-col" >
-    <form class="w-full"  >      
-        <button class="inline-flex items-center justify-center gap-x-2 bg-blue-600 text-white font-medium py-2 px-4 w-full rounded-full" ><PlusCircle />  new chat</button>
+<div class="w-full text-slate-50 flex gap-x-4 items-start justify-start px-4 min-h-screen" >
+    <div class="overflow-auto rounded-md bg-slate-950 border border-slate-700 shadow-xl min-h-[560px] w-1/4 gap-y-4 py-3 px-2 flex flex-col" >
+    <form method="POST" use:enhance={submitForm} class="w-full"  >      
+
+<button class="inline-flex items-center hover:bg-blue-500 justify-center gap-x-2 bg-blue-600 text-white font-medium py-2 px-4 w-full rounded-full" >  <PlusCircle /> { loading ? "loading..." : "new chat"}</button>
+
+
     </form>    
+    <ul  class="flex flex-col items-center">
+        {#each chats as chat (chat.display_id)}
+            <button on:click={async ()=>{
+                chats = chats.map((chatm)=>{
+                        return {
+                            display_id:chatm.display_id,
+                            active:chatm.display_id === chat.display_id ? true :false
+                        }
+                    })
+
+                    await goto(`/dashboard/chat?chat_id=${chat.display_id}`)
+
+            }}  class={`${chat.active && "bg-slate-700 font-semibold"} font-medium outline-none rounded-md py-3 px-2`} >
+                {chat.display_id }
+            </button>
+        {/each}
+    </ul>
     </div>
-    <div class="bg-slate-900  h-full" >
-        chat is here
-    </div>
+   <Chat   />
 </div>

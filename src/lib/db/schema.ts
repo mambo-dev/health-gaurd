@@ -141,7 +141,6 @@ export const chat = pgTable('chat', {
 	userId: integer('chat_user_id')
 		.references(() => users.id)
 		.notNull()
-		.unique()
 });
 
 export const chatRelations = relations(chat, ({ many }) => ({
