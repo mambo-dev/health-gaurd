@@ -37,7 +37,7 @@
             }
 
             if(options.result.type === "redirect"){
-                await goto(options.result.location)
+                await goto("/onboarding/schedule")
             }
             loading = false
         }

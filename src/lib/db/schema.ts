@@ -1,5 +1,14 @@
 import { relations } from 'drizzle-orm';
-import { boolean, integer, pgEnum, pgTable, serial, time, varchar } from 'drizzle-orm/pg-core';
+import {
+	boolean,
+	integer,
+	pgEnum,
+	pgTable,
+	serial,
+	text,
+	time,
+	varchar
+} from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
 	id: serial('user_id').primaryKey(),
@@ -123,5 +132,32 @@ export const notificationsRelations = relations(notifications, ({ one }) => ({
 	users: one(users, {
 		fields: [notifications.userId],
 		references: [users.id]
+	})
+}));
+
+export const chat = pgTable('chat', {
+	id: serial('chat_id').primaryKey(),
+	displayId: varchar('chat_display_id').unique().notNull(),
+	userId: integer('chat_user_id')
+		.references(() => users.id)
+		.notNull()
+		.unique()
+});
+
+export const chatRelations = relations(chat, ({ many }) => ({
+	messages: many(messages)
+}));
+
+export const messages = pgTable('message', {
+	id: serial('message_id').primaryKey(),
+	prompt: text('message_prompt').notNull(),
+	response: text('message_response').notNull(),
+	chatId: integer('message_chat_id').notNull()
+});
+
+export const messagesRelations = relations(messages, ({ one }) => ({
+	chat: one(chat, {
+		fields: [messages.chatId],
+		references: [chat.id]
 	})
 }));
