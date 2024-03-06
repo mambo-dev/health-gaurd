@@ -1,5 +1,5 @@
 import { db } from '$lib/db/db';
-import { chat } from '$lib/db/schema';
+import { chat, messages } from '$lib/db/schema';
 import { checkUserAuth } from '$lib/server/check-auth';
 import { fail, type Actions } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 };
 
 export const actions: Actions = {
-	default: async ({ locals }) => {
+	createChat: async ({ locals }) => {
 		const { error, userId } = checkUserAuth(locals);
 
 		if (!userId || error) {
@@ -44,12 +44,51 @@ export const actions: Actions = {
 			displayId: uniqueId
 		});
 
-		const findChat = await db.query.chat.findFirst({
-			where: eq(chat.displayId, uniqueId)
+		const allChats = await db.query.chat.findMany({
+			where: eq(chat.userId, userId)
 		});
 
 		return {
-			display_id: findChat?.displayId
+			allChats
+		};
+	},
+	sendMessage: async ({ locals, request }) => {
+		const { error, userId } = checkUserAuth(locals);
+
+		if (!userId || error) {
+			return fail(403, { error });
+		}
+
+		if (!locals.user.id) {
+			throw new Error('failed to attach id on login');
+		}
+
+		const formData = await request.formData();
+		const messagePrompt = String(formData.get('message'));
+		const displayId = String(formData.get('displayId'));
+
+		const findChat = await db.query.chat.findFirst({
+			where: eq(chat.displayId, displayId)
+		});
+		if (!findChat) {
+			throw new Error('failed to find this chat');
+		}
+
+		const response =
+			'we received your message but we are currently not able to process it  thank you for your patience';
+
+		const returnedMessage = await db
+			.insert(messages)
+			.values({
+				prompt: messagePrompt,
+				response,
+				chatId: findChat.id
+			})
+			.returning();
+
+		return {
+			message: returnedMessage[0].prompt,
+			response: returnedMessage[0].response
 		};
 	}
 };

@@ -143,6 +143,8 @@ export const chat = pgTable('chat', {
 		.notNull()
 });
 
+export type ChatT = typeof chat.$inferSelect;
+
 export const chatRelations = relations(chat, ({ many }) => ({
 	messages: many(messages)
 }));
