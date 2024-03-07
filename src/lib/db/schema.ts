@@ -37,6 +37,7 @@ export const activityEnum = pgEnum('profile_activity_level', [
 	'sedentary',
 	'lightly_active',
 	'moderately_active',
+	'active',
 	'very_active'
 ]);
 
@@ -50,8 +51,8 @@ export const profile = pgTable('profile', {
 	height: integer('profile_height').notNull().default(0),
 	weight: integer('profile_weight').notNull().default(0),
 	sex: sexEnum('sex'),
-	activityLevel: activityEnum('profile_activity_level'),
-	bmi: integer('profile_bmi'),
+	activityLevel: activityEnum('profile_activity_level').notNull(),
+	bmi: varchar('profile_bmi'),
 	userId: integer('profile_user_id')
 		.references(() => users.id)
 		.notNull()

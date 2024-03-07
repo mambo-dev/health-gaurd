@@ -32,6 +32,8 @@
 
             let allChats:ChatT[] = options.result.data.allChats
 
+            let newChat:ChatT = options.result.data.newChat
+
             chats = allChats.map(chat=>{
                 return {
                     display_id:chat.displayId,
@@ -41,6 +43,11 @@
 
 
             loading = false
+            
+
+                await goto(`/dashboard/chat/${newChat.displayId}`);
+                activeParam = newChat.displayId;
+            
         }
     }
 

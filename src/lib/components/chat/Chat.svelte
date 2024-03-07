@@ -32,7 +32,7 @@
         let chatContainer:any
         let newMessageId = 0
 
-        let isTyping = false
+
 
 
 

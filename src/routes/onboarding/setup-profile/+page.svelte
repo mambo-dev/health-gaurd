@@ -14,6 +14,7 @@
         sedentary:"sedentary",
         lightly_active:"Lightly active",
         moderately_active:"Moderately active",
+        active:"Active",
         very_active:"Very active",
     }
     let activityValue:string = "";

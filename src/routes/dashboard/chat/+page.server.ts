@@ -39,17 +39,21 @@ export const actions: Actions = {
 		}
 
 		const uniqueId = uid(25);
-		await db.insert(chat).values({
-			userId,
-			displayId: uniqueId
-		});
+		const newChat = await db
+			.insert(chat)
+			.values({
+				userId,
+				displayId: uniqueId
+			})
+			.returning();
 
 		const allChats = await db.query.chat.findMany({
 			where: eq(chat.userId, userId)
 		});
 
 		return {
-			allChats
+			allChats,
+			newChat: newChat[0]
 		};
 	}
 };

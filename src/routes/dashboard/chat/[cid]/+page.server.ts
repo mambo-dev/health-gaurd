@@ -5,6 +5,7 @@ import { uid } from 'uid';
 import { db } from '$lib/db/db';
 import { chat, messages } from '$lib/db/schema';
 import { eq } from 'drizzle-orm';
+import { calculateAmr, calculateBmr } from '$lib/server/calculate_bmr';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const { error, userId } = checkUserAuth(locals);
@@ -90,8 +91,18 @@ export const actions: Actions = {
 			throw new Error('failed to find this chat');
 		}
 
-		const response =
-			'we received your message but we are currently not able to process it  thank you for your patience';
+		const bmr = await calculateBmr(userId);
+
+		const amr = await calculateAmr(bmr, userId);
+
+		console.log(bmr, amr);
+
+		const response = `we received your message 
+		but we are currently not able to process it, 
+		however based on your profile you have 
+		an active basal metabolic rate of ${bmr} and an active metabolc rate of ${amr} which
+		 provides you the means to figure out how many calories you either need to exclude 
+		 and/or how many calories you need to burn through added exercise, to lose a specific amount of weight.`;
 
 		const returnedMessage = await db
 			.insert(messages)
