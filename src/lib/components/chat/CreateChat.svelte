@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
 	import { goto } from "$app/navigation";
+	import { page } from "$app/stores";
 	import type { ChatT } from "$lib/db/schema";
 	import { PlusCircle } from "lucide-svelte";
     export let allChats:ChatT[] | []
-    export let activeParam:string
+    
+    let activeParam:string  =  $page.params.cid
 
     let loading = false
     let error = false
@@ -56,6 +58,8 @@
         {#each chats as chat (chat.display_id)}
             <button on:click={async ()=>{
                await goto(`/dashboard/chat/${chat.display_id}`)
+
+               activeParam = chat.display_id
 
             }}  class={`${chat.active && "bg-slate-700 font-semibold"} hover:bg-slate-700 hover:font-semibold active:bg-slate-700 active:font-semibold w-full inline-flex items-start justify-start font-medium outline-none rounded-md py-3 px-2`} >
                 {chat.display_id }

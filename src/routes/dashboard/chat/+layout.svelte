@@ -14,7 +14,8 @@
         chats = []
         
     }
-    let activeParam = $page.params.cid
+
+  
 
 
     
@@ -24,7 +25,7 @@
 
 
 <div class="w-full text-slate-50 flex gap-x-2 items-start justify-start px-4 min-h-screen" >
-    <CreateChat allChats={chats} activeParam = {activeParam} />
+    <CreateChat allChats={chats}  />
 
     <slot />
 </div>

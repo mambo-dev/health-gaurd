@@ -156,6 +156,8 @@ export const messages = pgTable('message', {
 	chatId: integer('message_chat_id').notNull()
 });
 
+export type MessageT = typeof messages.$inferSelect;
+
 export const messagesRelations = relations(messages, ({ one }) => ({
 	chat: one(chat, {
 		fields: [messages.chatId],
