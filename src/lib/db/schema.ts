@@ -1,6 +1,7 @@
 import { relations } from 'drizzle-orm';
 import {
 	boolean,
+	date,
 	integer,
 	pgEnum,
 	pgTable,
@@ -165,3 +166,11 @@ export const messagesRelations = relations(messages, ({ one }) => ({
 		references: [chat.id]
 	})
 }));
+
+export const promptManagement = pgTable('prompt_mgmt', {
+	id: serial('prompt_management_id').primaryKey(),
+	dayOfprompt: date('prompt_management_day').notNull().defaultNow(),
+	numberOfPrompts: integer('prompt_management_no').notNull()
+});
+
+export type PromptT = typeof promptManagement.$inferSelect;

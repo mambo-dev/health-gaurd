@@ -3,12 +3,14 @@ import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from '../$types';
 import { uid } from 'uid';
 import { db } from '$lib/db/db';
-import { chat, messages } from '$lib/db/schema';
+import { chat, messages, users } from '$lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { calculateAmr, calculateBmr } from '$lib/server/calculate_bmr';
+import { getOpenAiResponse, type UserInfo } from '$lib/server/getOpenAiResponse';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const { error, userId } = checkUserAuth(locals);
+	//@ts-expect-error cid exists in the params
 	const chatId = params.cid;
 
 	if (!userId || error) {
@@ -94,21 +96,47 @@ export const actions: Actions = {
 		const bmr = await calculateBmr(userId);
 
 		const amr = await calculateAmr(bmr, userId);
+		const findUserAndDetails = await db.query.users.findFirst({
+			where: eq(users.id, userId),
+			with: {
+				mealPreferences: true,
+				goals: true,
+				profile: true,
+				dailySchedule: true,
+				medicalHistory: true
+			}
+		});
 
-		console.log(bmr, amr);
+		const medicalHistory = findUserAndDetails?.medicalHistory.map((history) => {
+			return history.name;
+		});
 
-		const response = `we received your message 
-		but we are currently not able to process it, 
-		however based on your profile you have 
-		an active basal metabolic rate of ${bmr} and an active metabolc rate of ${amr} which
-		 provides you the means to figure out how many calories you either need to exclude 
-		 and/or how many calories you need to burn through added exercise, to lose a specific amount of weight.`;
+		const userGoals = findUserAndDetails?.goals.map((goal) => {
+			return goal.title;
+		});
+
+		const userInfo: UserInfo = {
+			amr,
+			bmr,
+			firstName: findUserAndDetails?.profile.firstName ?? 'user',
+			goals:
+				userGoals && userGoals?.length > 0
+					? `has the followint medical history: ${userGoals.join(',')}`
+					: 'user has no specific goals',
+			mealPreference: `prefers ${findUserAndDetails?.mealPreferences[0].numberOfMeals} meals of ${findUserAndDetails?.mealPreferences[0].portionSizes} size`,
+			medicalHistory:
+				medicalHistory && medicalHistory?.length > 0
+					? `has the followint medical history: ${medicalHistory.join(',')}`
+					: 'user has no specific history'
+		};
+
+		const response = await getOpenAiResponse(messagePrompt, userInfo);
 
 		const returnedMessage = await db
 			.insert(messages)
 			.values({
 				prompt: messagePrompt,
-				response,
+				response: String(response),
 				chatId: findChat.id
 			})
 			.returning();

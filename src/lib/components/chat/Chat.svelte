@@ -43,7 +43,7 @@
         }
 
             if(index < response.length){
-                isTyping = true
+    
                 typedResponse += response[index]
                 index += 1
             }else{
@@ -52,11 +52,10 @@
         }
 
 
-        const typing = () => typeWriter = setInterval(startTyping,80) 
+        const typing = () => typeWriter = setInterval(startTyping,40) 
 
         function stopTyping(){
             clearInterval(typeWriter)
-            isTyping = false
         }
 
         
