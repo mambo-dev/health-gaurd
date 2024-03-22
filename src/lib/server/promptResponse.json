@@ -1,0 +1,77 @@
+{
+	"Weight management": {
+		"prompt": "Welcome to our Weight Management chat! How can I assist you today?",
+		"tips": [
+			"Try to incorporate more fruits and vegetables into your meals to increase fiber intake and promote feelings of fullness.",
+			"Stay hydrated by drinking plenty of water throughout the day, as thirst can often be mistaken for hunger.",
+			"Engage in regular physical activity, such as walking, jogging, or cycling, to help burn calories and maintain a healthy weight.",
+			"Keep track of your food intake by writing down what you eat and drink each day to help you stay mindful of your choices.",
+			"Focus on eating whole, minimally processed foods rather than highly processed and packaged options.",
+			"Practice mindful eating by paying attention to hunger and fullness cues and eating slowly and without distractions.",
+			"Choose smaller plates and bowls to help control portion sizes and prevent overeating.",
+			"Limit consumption of sugary beverages like soda, fruit juices, and energy drinks, as they can contribute excess calories.",
+			"Include sources of lean protein in your meals and snacks, such as poultry, fish, tofu, beans, and lentils, to help you feel satisfied and maintain muscle mass.",
+			"Be patient and consistent with your efforts, as healthy weight loss takes time and requires long-term lifestyle changes."
+		]
+	},
+	"Diabetes management": {
+		"prompt": "Welcome to our Diabetes Management chat! How can I assist you today?",
+		"tips": [
+			"Monitor your blood sugar levels regularly and keep track of your readings.",
+			"Follow a balanced meal plan that includes a variety of nutrient-rich foods, and watch your portion sizes.",
+			"Stay physically active to help control blood sugar levels and improve insulin sensitivity.",
+			"Limit intake of foods high in added sugars, refined carbohydrates, and unhealthy fats.",
+			"Include plenty of non-starchy vegetables in your meals and snacks to help control blood sugar levels and promote satiety.",
+			"Choose whole grains like quinoa, brown rice, and oats over refined grains like white bread and pasta.",
+			"Include sources of healthy fats in your diet, such as avocados, nuts, seeds, and olive oil, in moderation.",
+			"Work with your healthcare team to develop a personalized diabetes management plan that meets your individual needs and goals.",
+			"Stay informed about your condition by attending diabetes education classes, reading reliable sources of information, and asking questions during medical appointments.",
+			"Monitor your stress levels and practice stress-management techniques like deep breathing, meditation, or yoga to help keep blood sugar levels stable."
+		]
+	},
+	"Overall wellness": {
+		"prompt": "Welcome to our Overall Wellness chat! How can I assist you today?",
+		"tips": [
+			"Prioritize getting enough sleep each night to support overall health and well-being.",
+			"Practice stress-relief techniques such as deep breathing, meditation, or yoga.",
+			"Make time for activities you enjoy and social connections to nurture your mental and emotional health.",
+			"Focus on building a balanced and varied diet that includes a wide range of nutrients from fruits, vegetables, whole grains, lean proteins, and healthy fats.",
+			"Stay physically active by incorporating a mix of cardiovascular exercise, strength training, and flexibility exercises into your routine.",
+			"Limit consumption of processed foods, sugary snacks, and beverages high in added sugars and unhealthy fats.",
+			"Drink plenty of water throughout the day to stay hydrated and support bodily functions.",
+			"Schedule regular check-ups with your healthcare provider to monitor your health and address any concerns or potential issues.",
+			"Set realistic goals for yourself and celebrate your progress along the way, no matter how small.",
+			"Practice gratitude and mindfulness to cultivate a positive outlook and enhance overall well-being."
+		]
+	},
+	"Heart health": {
+		"prompt": "Welcome to our Heart Health chat! How can I assist you today?",
+		"tips": [
+			"Choose heart-healthy foods like fruits, vegetables, whole grains, and lean proteins.",
+			"Limit intake of saturated and trans fats, cholesterol, sodium, and added sugars.",
+			"Get regular exercise to strengthen your heart muscle and improve circulation.",
+			"Maintain a healthy weight through a balanced diet and regular physical activity.",
+			"Quit smoking if you currently smoke, and avoid exposure to secondhand smoke.",
+			"Manage stress through relaxation techniques like deep breathing, meditation, or yoga.",
+			"Monitor your blood pressure regularly and take steps to keep it within a healthy range.",
+			"Limit alcohol consumption to moderate levels, which is up to one drink per day for women and up to two drinks per day for men.",
+			"Get enough sleep each night to support heart health and overall well-being.",
+			"Stay socially connected and maintain supportive relationships with friends, family, and community."
+		]
+	},
+	"Stress management": {
+		"prompt": "Welcome to our Stress Management chat! How can I assist you today?",
+		"tips": [
+			"Practice relaxation techniques such as deep breathing exercises, progressive muscle relaxation, or mindfulness meditation.",
+			"Engage in regular physical activity to help reduce stress and improve mood.",
+			"Set realistic goals, prioritize tasks, and learn to say no when necessary to avoid feeling overwhelmed.",
+			"Establish a daily routine that includes time for self-care activities and relaxation.",
+			"Limit exposure to stressful situations when possible, and develop coping strategies for managing unavoidable stressors.",
+			"Maintain a healthy work-life balance by setting boundaries and taking breaks when needed.",
+			"Connect with others for emotional support and companionship, whether through friends, family, support groups, or counseling.",
+			"Engage in activities that bring you joy and fulfillment, such as hobbies, creative pursuits, or spending time in nature.",
+			"Practice positive self-talk and challenge negative thoughts and beliefs that contribute to stress.",
+			"Seek professional help if you're struggling to cope with stress or if it's impacting your daily life and functioning."
+		]
+	}
+}

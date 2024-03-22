@@ -1,6 +1,6 @@
 <script lang="ts" >
 	import { enhance } from "$app/forms";
-	import { getChatMessages, type ReturnedMessages } from "$lib/client/getMessages";
+	import {  type ReturnedMessages } from "$lib/client/getMessages";
 	import type { MessageT } from "$lib/db/schema";
 	import { Loader2, SendHorizonal } from "lucide-svelte";
 	import { afterUpdate, onMount } from "svelte";
