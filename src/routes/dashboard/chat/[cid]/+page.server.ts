@@ -7,6 +7,7 @@ import { chat, messages, users } from '$lib/db/schema';
 import { eq } from 'drizzle-orm';
 import { calculateAmr, calculateBmr } from '$lib/server/calculate_bmr';
 import { getOpenAiResponse, type UserInfo } from '$lib/server/getOpenAiResponse';
+import { getPromptAndResponse } from '$lib/server/promptResponse';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
 	const { error, userId } = checkUserAuth(locals);
@@ -143,6 +144,26 @@ export const actions: Actions = {
 
 		return {
 			newMessage: returnedMessage[0]
+		};
+	},
+	getResponseFromPrompt: async ({ locals, request }) => {
+		const { error, userId } = checkUserAuth(locals);
+
+		if (!userId || error) {
+			return fail(403, { error });
+		}
+
+		if (!locals.user.id) {
+			throw new Error('failed to attach id on login');
+		}
+
+		const formData = await request.formData();
+		const category = String(formData.get('promptCategory'));
+
+		const tips = await getPromptAndResponse(category);
+
+		return {
+			tips
 		};
 	}
 };
